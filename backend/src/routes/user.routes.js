@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { analyzeStockChart, chatBot, testAi } from "../controllers/user.controller.js";
+import { chatBot } from "../controllers/user.controller.js";
 
 
 
