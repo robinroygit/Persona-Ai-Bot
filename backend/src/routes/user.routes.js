@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { chatBot } from "../controllers/user.controller.js";
+import { podcastChatBot } from "../controllers/user.controller.js";
 
 
 
@@ -11,7 +11,7 @@ router.route("/").get((req,res)=>{
 })
 
 
-router.route("/chat-bot").post(chatBot)
+router.route("/chat-bot").post(podcastChatBot)
 
 
 

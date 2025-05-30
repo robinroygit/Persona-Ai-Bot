@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public/build"))
 app.use(cookieParser())
 
-app.use("/api/v1/users",userRouter);
+app.use("/api/v1/user",userRouter);
 
 
 app.get("/hey",(req,res)=>{
