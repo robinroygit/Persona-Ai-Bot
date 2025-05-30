@@ -18,7 +18,7 @@ export default function PodcastChat() {
     setLoading(true);
   
     try {
-      const res = await axios.post('/api/user/chat-bot', { message: userQ });
+      const res = await axios.post('/api/v1/user/chat-bot', { message: userQ });
       const botReplyArray = res.data.reply;
   
       if (Array.isArray(botReplyArray) && botReplyArray.length > 0) {
