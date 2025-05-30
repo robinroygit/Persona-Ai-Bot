@@ -5,7 +5,7 @@
         "src": "index.js",
         "use": "@vercel/node",
         "config": {
-          "includeFiles": ["build/**"]
+          "includeFiles": ["/public/build/**"]
         }
       }
     ],
@@ -16,7 +16,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "/build/index.html"
+        "dest": "public/build/index.html"
       }
     ]
   }
