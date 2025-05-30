@@ -148,8 +148,6 @@ while (true) {
 
   if(parsed_res.step!="result"){
     console.log('--->>,.,.>>>',parsed_res);
-    msgToSend.push(parsed_res.content)
-
     continue;
 
   }else{
