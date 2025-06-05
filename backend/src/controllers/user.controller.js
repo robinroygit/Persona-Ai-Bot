@@ -138,7 +138,7 @@ let msgToSend=[]
 while (true) {
   // code to execute
  const res = await openai.chat.completions.create({
-    model: "gpt-4",
+    model: "gpt-4.1-mini-2025-04-14",
     messages: messages,
   });
 
