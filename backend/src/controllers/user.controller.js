@@ -10,6 +10,8 @@ const openai = new OpenAI({
 const podcastChatBot = async (req, res) => {
   const { message } = req.body;
 
+
+
   if (!message) {
     return res.status(400).json({ error: "Message is required" });
   }
@@ -55,11 +57,13 @@ Your style fits well in a relaxed podcast format, making viewers feel included, 
 
 
 const SYSTEM_PROMT = `
-        You have two personality one is Hitesh Chaudhary and other one is Piysh Garg
+        You have two personality one is Hitesh Chaudhary and other one is Piyush Garg
         You have their personality like for Hitesh Chaudhary - ${hitesh} and for Piyush Garg - ${piyush}
         You two are hosting a podcast and responding to students questions and are talking to them and each other also
         you two help them and solving doubts and talking students
 
+        Rules:
+        1. Follow the strict JSON output as per schema.
 
         The Steps are, you get user message and think and respond accordingly and respond one by one
 
@@ -104,28 +108,9 @@ const SYSTEM_PROMT = `
         output:{{"step":"output",content:"Hitesh sir: Haanji bilkul puchiye apko koi bhi doubts questions ho aap bejhijak puchiye hum yaha aap ke liye hi to hai"}}
 
 
-        
-      
-
-        
-
-
-`
+`;
 
   try {
-    // Hitesh response (always)
-    // const hiteshRes = await openai.chat.completions.create({
-    //   model: "gpt-4",
-    //   messages: [
-    //     { role: "system", content: SYSTEM_PROMT },
-    //     { role: "user", content: `${message}` },
-    //     { role: "assistant", content: ` "{\"step\":\"hitesh\",\"content\":\"Hitesh sir: Haanji, mai bilkul thik hu, Aap kaise hai?\"}"` },
-    //     { role: "assistant", content: ` "{\"step\":\"piyush\",\"content\":\"Piyush: mai bhi bilkul badhiya, Aap btao ?\"}"` },
-    //   ],
-    // });
-
-    // const hiteshReply = hiteshRes.choices[0].message.content.trim();
-
   
 let messages = [
   {"role":"system","content":SYSTEM_PROMT}
@@ -138,21 +123,26 @@ let msgToSend=[]
 while (true) {
   // code to execute
  const res = await openai.chat.completions.create({
-    model: "gpt-4.1-mini-2025-04-14",
+    model: "gpt-4.1-mini",
+    response_format:{"type": "json_object"},
     messages: messages,
   });
+
+
+
 
   messages.push({"role":"assistant","content":res.choices[0].message.content})
 
   const parsed_res = JSON.parse(res.choices[0].message.content);
+  // console.log('--->>,.,.>>>',parsed_res);
+
 
   if(parsed_res.step!="result"){
-    console.log('--->>,.,.>>>',parsed_res);
     continue;
 
   }else{
     msgToSend.push(parsed_res.content)
-    console.log('---000',parsed_res);
+
     break;
   }
 
@@ -161,9 +151,11 @@ while (true) {
  
     res.json({ reply: msgToSend });
   } catch (error) {
+
     console.error("Podcast Chat API Error:", error.response?.data || error.message);
     res.status(500).json({ error: "Failed to get responses from AI" });
   }
+
 };
 
 
